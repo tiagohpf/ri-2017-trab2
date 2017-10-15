@@ -125,3 +125,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/linux,maven,windows,netbeans,intellij
+/ri-2017-trab2/nbproject/private/

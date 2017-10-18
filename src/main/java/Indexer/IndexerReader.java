@@ -53,7 +53,7 @@ public class IndexerReader {
         }
         // Get index of line of Tokenizer's type
         int index = lines.size() - 1;
-        tokenizerType = lines.get(index);
+        tokenizerType = lines.get(index).replaceAll("[-> ]", "");
         lines.remove(index);
         loadIndexer(lines);
     }
@@ -71,7 +71,6 @@ public class IndexerReader {
             }
             indexer.put(term, documents);
         }
-        System.out.println(indexer);
     }
     
     public String getTokenizerType() {

@@ -1,6 +1,7 @@
 package Tokenizers;
 
 import CorpusReader.Document;
+import CorpusReader.XMLDocument;
 import Utils.Pair;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,11 +37,18 @@ public class CompleteTokenizer implements Tokenizer{
     }
     
     // Tokenizing all documents.
+    @Override
     public void tokenize(List<Document> documents) {
         for (Document document : documents) {
             int id = document.getId();
+            String content;
+            // Use title in case of be a XML file
+            if (document instanceof XMLDocument)
+                content = ((XMLDocument) document).getTitle() + "\n" + document.getText();
+            else
+                content = document.getText();
             // Remove some special characters
-            String content = (document.getTitle() + "\n" + document.getText()).replaceAll("[*+/:;'()\"]", "");
+            content = content.replaceAll("[*+/:;'()\"]", "");
             content = content.replaceAll("\n", " ");
             // Tokenize by white space
             String []text = content.split(" ");

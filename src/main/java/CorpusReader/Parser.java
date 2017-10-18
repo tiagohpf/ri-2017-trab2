@@ -14,7 +14,7 @@ import java.util.List;
  * 
  */
 public class Parser {
-    private Strategy strategy;
+    private final Strategy strategy;
     
     /**
      * Class that uses the Strategy's pattern.
@@ -28,9 +28,9 @@ public class Parser {
     /**
      * Parse a certain file.
      * @param file
-     * @return Document
+     * @return Object
      */
-    public Document parseFile(File file) {
+    public Object parseFile(File file) {
         return strategy.parseFile(file);
     }
     

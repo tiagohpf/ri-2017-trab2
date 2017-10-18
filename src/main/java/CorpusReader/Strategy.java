@@ -11,6 +11,7 @@ import java.util.List;
  *
  * @author Tiago Faria, 73714, tiagohpf@ua.pt
  * @author David dos Santos Ferreira, 72219, davidsantosferreira@ua.pt
+ * @param <T>
  * 
  */
 
@@ -18,14 +19,14 @@ import java.util.List;
 * Strategy's pattern.
 * The Strategy pattern creates objects. The strategy object changes the executing algorithm of the context object.
 */
-public interface Strategy {
+public interface Strategy<T> {
 
     /**
      * Parse a certain file.
      * @param file
      * @return Document
      */
-    Document parseFile(File file);
+    T parseFile(File file);
 
     /**
      * Parse a certain directory.

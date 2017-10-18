@@ -10,7 +10,9 @@ package CorpusReader;
  * 
  */
 public class XMLDocument extends Document {
-
+    private String title;
+    private String author;
+    
     /**
      * Class that extends Document abstract class.
      * Class that represents XML Files.
@@ -26,6 +28,30 @@ public class XMLDocument extends Document {
      * @param author
      */
     public XMLDocument(int id, String title, String text, String author) {
-        super(id, title, text, author);
+        super(id, text);
+        this.title = title;
+        this.author = author;
+    }
+    
+    public String getTitle() {
+        return title;
+    }
+    
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    
+    public String getAuthor() {
+        return author;
+    }
+    
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+    
+    @Override
+    public String toString() {
+        return "XML: {id: " + super.getId() + "; title: " + title + 
+                "; text: " + super.getText() + "; author: " + author + "}";
     }
 }

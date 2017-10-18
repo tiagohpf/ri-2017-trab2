@@ -27,7 +27,7 @@ import org.xml.sax.SAXException;
 * XML Parser.
 * Class that parser files, more specifically, XML Files.
 */
-public class XMLParser implements Strategy {
+public class XMLParser implements Strategy<Document> {
     /**
      * Parse a certain file.
      * @param file

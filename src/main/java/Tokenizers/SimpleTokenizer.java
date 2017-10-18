@@ -1,6 +1,7 @@
 package Tokenizers;
 
 import CorpusReader.Document;
+import CorpusReader.XMLDocument;
 import Utils.Pair;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,10 +37,16 @@ public class SimpleTokenizer implements Tokenizer{
     }
     
     // Tokenizing all documents.
+    @Override
     public void tokenize(List<Document> documents) {
         for(int i = 0; i < documents.size(); i++){
             Document document = documents.get(i);
-            String content = document.getTitle() + "\n" + document.getText();
+            String content;
+            // Use title in case of be a XML file
+            if (document instanceof XMLDocument)
+                content = ((XMLDocument) document).getTitle() + "\n" + document.getText();
+            else
+                content = document.getText();
             // Remove all non-alphabetical characters.
             String newContent = content.replaceAll("[^a-zA-Z ]", " ");
             // Tokenize by whitespaces.

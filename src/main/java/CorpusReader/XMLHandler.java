@@ -68,10 +68,10 @@ public class XMLHandler extends DefaultHandler {
             document.setId(Integer.parseInt(new String(ch, start, length).trim()));
            id = false;
       } else if (title) {
-          document.setTitle(new String(ch, start, length).trim());
+          ((XMLDocument) document).setTitle(new String(ch, start, length).trim());
           title = false;
       } else if (author) {
-          document.setAuthor(new String(ch, start, length).trim());
+          ((XMLDocument) document).setAuthor(new String(ch, start, length).trim());
           author = false;
       } else if (text) {
           text = false;

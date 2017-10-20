@@ -1,4 +1,4 @@
-package Indexer;
+package Indexers;
 
 import Tokenizers.CompleteTokenizer;
 import Tokenizers.SimpleTokenizer;
@@ -50,7 +50,7 @@ public class IndexerWriter {
         this.tokenizeType = tokenizerType;
         stopWords = new ArrayList<>();
         indexer = new TreeMap<>();
-        if (tokenizerType.equals("t2")) {
+        if (tokenizerType.equals(CompleteTokenizer.class.getName())) {
             loadStopwords();
             stopwordsFiltering();
             stemmingWords();

@@ -1,4 +1,4 @@
-package CorpusReader;
+package Documents;
 
 /**
  * IR, October 2017

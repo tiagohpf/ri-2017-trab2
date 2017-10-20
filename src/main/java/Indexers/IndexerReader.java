@@ -1,4 +1,4 @@
-package Indexer;
+package Indexers;
 
 import Utils.Pair;
 import java.io.File;
@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 /**
  * IR, October 2017
@@ -32,7 +33,7 @@ public class IndexerReader {
     }
     
     public Map<String, List<Pair<Integer, Integer>>> getIndexer() {
-        return indexer;
+        return new TreeMap<>(indexer);
     }
     
     private void readFile(String filename) {

@@ -1,7 +1,7 @@
 package Tokenizers;
 
-import CorpusReader.Document;
-import CorpusReader.XMLDocument;
+import Documents.Document;
+import Documents.XMLDocument;
 import Utils.Pair;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package Tokenizers;
 
-import CorpusReader.Document;
+import Documents.Document;
 import java.util.List;
 
 /**

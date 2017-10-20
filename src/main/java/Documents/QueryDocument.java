@@ -1,4 +1,4 @@
-package CorpusReader;
+package Documents;
 
 public class QueryDocument extends Document{
     

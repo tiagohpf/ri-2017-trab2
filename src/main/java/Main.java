@@ -1,10 +1,12 @@
 import Tokenizers.SimpleTokenizer;
-import CorpusReader.Parser;
+import Parsers.Parser;
 import CorpusReader.CorpusReader;
-import CorpusReader.Document;
-import CorpusReader.QueryParser;
-import Indexer.IndexerReader;
+import Documents.Document;
+import Parsers.QueryParser;
+import Indexers.IndexerReader;
+import Scoring.QueryScoring;
 import Tokenizers.CompleteTokenizer;
+import Utils.Pair;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -31,7 +33,7 @@ public class Main {
      * @throws FileNotFoundException
      */
     public static void main(String[] args) throws FileNotFoundException {
-        //TODO: args <indexer file> <query file>  <file out nº1> <file out nº2>            
+        // TODO: args <indexer file> <query file>  <file out nº1> <file out nº2>            
         IndexerReader indexReader = new IndexerReader(args[0]);
         if (args.length == 4) {
             File file = new File(args[1]);
@@ -45,18 +47,23 @@ public class Main {
                 corpusReader.setDocuments(parser.parseDir(file));
             else
                 corpusReader.setDocuments((List<Document>)parser.parseFile(file));
+            List<Document> documents = corpusReader.getDocuments();
             String tokenizerType = indexReader.getTokenizerType();
             if (tokenizerType.equals(SimpleTokenizer.class.getName())) {
-                SimpleTokenizer tokenizer = new SimpleTokenizer();
+                SimpleTokenizer simpleTokenizer = new SimpleTokenizer();
                 System.out.println("**********************************************");
                 System.out.println("Queries with Simple Tokenizer");
                 System.out.println("**********************************************");
+                simpleTokenizer.tokenize(documents);
+                List<Pair<String, Integer>> terms = simpleTokenizer.getTerms();
+                QueryScoring score = new QueryScoring(indexReader.getIndexer(), terms, documents.size());
                 // TODO: generate files
             } else if (tokenizerType.equals(CompleteTokenizer.class.getName())) {
-                CompleteTokenizer tokenizer = new CompleteTokenizer();
+                CompleteTokenizer completeTokenizer = new CompleteTokenizer();
                 System.out.println("**********************************************");
                 System.out.println("Queries with Complete Tokenizer");
                 System.out.println("**********************************************");
+                completeTokenizer.tokenize(documents);
                 // TODO: generate files
             } else {
                 System.err.println("ERROR: Invalid type of Tokenizer!");

@@ -1,5 +1,7 @@
-package CorpusReader;
+package Parsers;
 
+import Documents.Document;
+import Documents.QueryDocument;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

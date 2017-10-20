@@ -1,5 +1,6 @@
 package CorpusReader;
 
+import Documents.Document;
 import java.util.ArrayList;
 import java.util.List;
 

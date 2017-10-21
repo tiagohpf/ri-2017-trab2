@@ -25,17 +25,31 @@ public class IndexerReader {
     // Indexer. The Indexer has a list of terms like [term, docId: frequency] 
     private Map<String, List<Pair<Integer, Integer>>> indexer;
     private static Scanner sc;
+    // Type of Tokenizer in use
     private String tokenizerType;
     
+    /**
+     * Constructor
+     * 
+     * @param file 
+     */
     public IndexerReader(String file) {
         indexer = new HashMap<>();
         readFile(file);
     }
     
+    /**
+     * Get Indexer
+     * @return indexer 
+     */
     public Map<String, List<Pair<Integer, Integer>>> getIndexer() {
         return new TreeMap<>(indexer);
     }
     
+    /**
+     * Read Indexer's file
+     * @param filename 
+     */
     private void readFile(String filename) {
         // Create the file
         File file = new File(filename);
@@ -59,8 +73,13 @@ public class IndexerReader {
         loadIndexer(lines);
     }
     
+    /**
+     * Load Indexer
+     * @param lines 
+     */
     private void loadIndexer(List<String> lines) {
         for (String line : lines) {
+            // Slipt the term of his occurrences in the documents
             String []elements = line.split(",");
             String term = elements[0];
             List<Pair<Integer, Integer>> documents = new ArrayList<>();
@@ -74,6 +93,10 @@ public class IndexerReader {
         }
     }
     
+    /**
+     * Get type of Tokenizer
+     * @return Tokenizer
+     */
     public String getTokenizerType() {
         return tokenizerType;
     }

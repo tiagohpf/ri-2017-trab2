@@ -15,13 +15,35 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+/**
+ * IR, October 2017
+ *
+ * Assignment 2 
+ *
+ * @author Tiago Faria, 73714, tiagohpf@ua.pt
+ * @author David dos Santos Ferreira, 72219, davidsantosferreira@ua.pt
+ * 
+ */
+
+// Class that scores the queries
 public class QueryScoring {
+    // Indexer
     private final Map<String, List<Pair<Integer, Integer>>> indexer;
+    // Queries
     private final List<Pair<String, Integer>> queries;
+    // Number of words in the query that appear in the document
     private Map<Key, Integer> numberOfTerms;
+    // Frequency of query words in the document
     private Map<Key, Integer> termsFrequency;
+    // Number of queries
     private final int size;
     
+    /**
+     * Constructor
+     * @param indexer
+     * @param queries
+     * @param size 
+     */
     public QueryScoring(Map<String, List<Pair<Integer, Integer>>> indexer, List<Pair<String, Integer>> queries, int size) {
         this.indexer = indexer;
         this.queries = queries;
@@ -30,28 +52,47 @@ public class QueryScoring {
         termsFrequency = new HashMap<>();
     }
     
+    /**
+     * Get number of words in the query that appear in the document
+     * @return number of words 
+     */
     public Map<Key, Integer> getNumberOfTerms() {
         return numberOfTerms;
     }
     
+    /**
+     * Get frequency of query words in the document
+     * @return frequency of words 
+     */
     public Map<Key, Integer> getTermsFrequency() {
         return termsFrequency;
     }
     
+    /**
+     * Calculate the two scorings
+     */
     public void calculateScores() {
         for (int i = 1; i <= size; i++) {
             List<String> terms = new ArrayList<>(getTermsOfQuery(i));
             for (String term : terms) {
+                // Get documents and respectively frequency where appears a certain term
                 List<Pair<Integer, Integer>> docId_freq = indexer.get(term);
+                // If the Indexer has the term, add to scores
                 if (docId_freq != null)
                     addQueryIdToScores(i, docId_freq);
             }
         }
+        // Sort terms
         numberOfTerms = orderTerms(numberOfTerms);
         termsFrequency = orderTerms(termsFrequency);
     }
     
-     public void writeNumberOfWords(File file) {
+    /**
+     * Write in file of number of words of query in each document
+     * @param file 
+     */ 
+    public void writeNumberOfWords(File file) {
+        // File has to be unique
         if (file.exists()) {
             System.err.println("ERROR: File already exists");
             System.exit(1);
@@ -70,7 +111,12 @@ public class QueryScoring {
         }
     }
 
+    /**
+     * Write file of words frequency of query in each document
+     * @param file 
+     */
     public void writeWordsFrequency(File file) {
+        // File has to be unique
         if (file.exists()) {
             System.err.println("ERROR: File already exists");
             System.exit(1);
@@ -89,6 +135,11 @@ public class QueryScoring {
         }
     }
     
+    /**
+     * Get terms of certain query 
+     * @param id
+     * @return terms
+     */
     private List<String> getTermsOfQuery(int id) {
         return queries.stream()
                 .filter(query -> query.getValue() == id)
@@ -96,10 +147,20 @@ public class QueryScoring {
                 .collect(Collectors.toList()); 
     }
     
+    /**
+     * Add query to scores
+     * @param queryId
+     * @param docId_freq 
+     */
     private void addQueryIdToScores(int queryId, List<Pair<Integer, Integer>> docId_freq) {
         for (int i = 0; i < docId_freq.size(); i++) {
+           // Get docId and frequency of term
            Pair<Integer, Integer> pair = docId_freq.get(i);
            int docId = pair.getKey();
+           /**
+            * If docId is already associated to queryId, increment its value
+            * Otherwise, create a new instance
+            */
            if (numberOfTerms.get(new Key(queryId, docId)) == null)
                numberOfTerms.put(new Key(queryId, docId), 1);
            else {
@@ -107,6 +168,10 @@ public class QueryScoring {
                numberOfTerms.put(new Key(queryId, docId), value);
            }
            int frequency = pair.getValue();
+            /**
+            * If docId is already associated to queryId, sum its frequency
+            * Otherwise, create a new instance
+            */
            if (termsFrequency.get(new Key(queryId, docId)) == null)
                termsFrequency.put(new Key(queryId, docId), frequency);
            else {
@@ -116,8 +181,14 @@ public class QueryScoring {
        }
     }
     
+    /**
+     * Sort data structures
+     * @param terms
+     * @return terms
+     */
     private Map<Key, Integer> orderTerms(Map<Key, Integer> terms) {
         List<Map.Entry<Key,Integer>> entries = new ArrayList<>(terms.entrySet());
+        // Comparator to sort
         Collections.sort(entries, new Comparator<Map.Entry<Key,Integer>>() {
             @Override
             public int compare(Entry<Key, Integer> o1, Entry<Key, Integer> o2) {

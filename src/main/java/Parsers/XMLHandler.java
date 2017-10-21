@@ -9,7 +9,7 @@ import org.xml.sax.helpers.DefaultHandler;
 /**
  * IR, October 2017
  *
- * Assignment 1 
+ * Assignment 2 
  *
  * @author Tiago Faria, 73714, tiagohpf@ua.pt
  * @author David dos Santos Ferreira, 72219, davidsantosferreira@ua.pt
@@ -29,7 +29,7 @@ public class XMLHandler extends DefaultHandler {
    boolean text = false;
 
     /**
-     * Check attributes in XML file.
+     * Check attributes in XML file
      * @param uri
      * @param localName
      * @param qName
@@ -54,7 +54,7 @@ public class XMLHandler extends DefaultHandler {
    }
 
     /**
-     * Set the attributes in Document's Object.
+     * Set the attributes in Document's Object
      * @param ch
      * @param start
      * @param length
@@ -62,10 +62,9 @@ public class XMLHandler extends DefaultHandler {
      */
     @Override
    public void characters(char ch[], int start, int length) throws SAXException {
-       
        sb.append(ch, start, length);
        if (id) {
-           //Save if Document has DOCNO
+           // Save if Document has DOCNO
            if (new String(ch, start, length).trim().length() > 0)
             document.setId(Integer.parseInt(new String(ch, start, length).trim()));
            id = false;
@@ -81,7 +80,7 @@ public class XMLHandler extends DefaultHandler {
    }
    
     /**
-     * Finish the read of the element in XML file.
+     * Finish the read of the element in XML file
      * @param uri
      * @param localName
      * @param qName

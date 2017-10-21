@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * IR, October 2017
  *
- * Assignment 1 
+ * Assignment 2 
  *
  * @author Tiago Faria, 73714, tiagohpf@ua.pt
  * @author David dos Santos Ferreira, 72219, davidsantosferreira@ua.pt
@@ -18,8 +18,8 @@ public class Parser {
     private final Strategy strategy;
     
     /**
-     * Class that uses the Strategy's pattern.
-     * Constructor.
+     * Class that uses the Strategy's pattern
+     * Constructor
      * @param strategy
      */
     public Parser(Strategy strategy) {
@@ -27,7 +27,7 @@ public class Parser {
     }
     
     /**
-     * Parse a certain file.
+     * Parse a certain file
      * @param file
      * @return Object
      */
@@ -36,7 +36,7 @@ public class Parser {
     }
     
     /**
-     * Parse a certain directory.
+     * Parse a certain directory
      * @param file
      * @return List of Documents
      */

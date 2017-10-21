@@ -3,7 +3,7 @@ package Documents;
 /**
  * IR, October 2017
  *
- * Assignment 1 
+ * Assignment 2 
  *
  * @author Tiago Faria, 73714, tiagohpf@ua.pt
  * @author David dos Santos Ferreira, 72219, davidsantosferreira@ua.pt
@@ -14,12 +14,12 @@ public abstract class Document {
     private String text;
     
     /**
-     * Constructor. Abstract Class that represents a Document.
+     * Constructor. Abstract Class that represents a Document
      */
     public Document() { }
     
     /**
-     * Constructor. A Document's object uses an id and a text.
+     * Constructor. A Document's object uses an id and a text
      * @param id
      * @param text
      */
@@ -29,7 +29,7 @@ public abstract class Document {
     }
 
     /**
-     * Return Document's id.
+     * Get Document's id
      * @return id
      */
     public int getId() {
@@ -37,7 +37,7 @@ public abstract class Document {
     }
 
     /**
-     * Set a new id for the Document.
+     * Set a new id for the Document
      * @param id
      */
     public void setId(int id) {
@@ -45,7 +45,7 @@ public abstract class Document {
     }
 
     /**
-     * Return Document's text.
+     * Get Document's text
      * @return text
      */
     public String getText() {
@@ -54,7 +54,7 @@ public abstract class Document {
     }
 
     /**
-     * Set a new text for The Document.
+     * Set a new text for the Document
      * @param text
      */
     public void setText(String text) {

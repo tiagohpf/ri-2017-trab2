@@ -13,15 +13,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
-import org.tartarus.snowball.ext.englishStemmer;
 
 /**
  * IR, October 2017
  *
- * Assignment 1 
+ * Assignment 2 
  *
  * @author Tiago Faria, 73714, tiagohpf@ua.pt
  * @author David dos Santos Ferreira, 72219, davidsantosferreira@ua.pt
@@ -38,7 +35,7 @@ public class IndexerWriter {
     private final String tokenizeType;
     
     /**
-     * Constructor. An Indexer needs the terms and the filename to write.
+     * Constructor. An Indexer needs the terms and the filename to write
      * @param terms
      * @param file
      * @param tokenizerType
@@ -50,8 +47,11 @@ public class IndexerWriter {
         indexer = new TreeMap<>();
         if (tokenizerType.equals(CompleteTokenizer.class.getName())) {
             Filter filter = new Filter();
+            // Get stopWords
             List<String> stopWords = filter.loadStopwords();
+            // Use stopWording
             terms = filter.stopwordsFiltering(terms);
+            // Apply stemming
             terms = filter.stemmingWords(terms);
         }
         indexWords();
@@ -67,7 +67,7 @@ public class IndexerWriter {
     }
     
     /**
-     * Get the ten first terms (order alphabetically) that appear in only one document.
+     * Get the ten first terms (order alphabetically) that appear in only one document
      * @return list of terms
      */
     public List<String> getTermsInOneDoc() {
@@ -120,7 +120,10 @@ public class IndexerWriter {
         return sortedTerms;
     }
     
-    // Get of list of pairs with <term, document frequency>
+    /**
+     * Get of list of pairs with (term, document frequency)
+     * @return list of (term, frequency)
+     */
     private List<Pair<String, Integer>> getTermsAndFreq() {
         // For each entry on Map, add the term and its document's frequency to a list
         List<Pair<String, Integer>> termsFreq = new ArrayList<>();
@@ -130,6 +133,9 @@ public class IndexerWriter {
         return termsFreq;
     }
     
+    /**
+     * Index all words
+     */
     private void indexWords() {
         for (Pair<String, Integer> term_doc : terms) {
             String term = term_doc.getKey();
@@ -161,13 +167,14 @@ public class IndexerWriter {
         }
     }
     
-    /*
-    * Write the indexer to a file.
-    * @param filename
-    */
+    /**
+     * Write Indexer to file
+     * @param file
+     * @throws FileNotFoundException 
+     */
     private void writeToFile(File file) throws FileNotFoundException {
         try (PrintWriter pw = new PrintWriter(file)) {
-            // For each entry of map, it's write an entry like: term, docId:frequency
+            // For each entry of map, writes an entry like: term, docId:frequency
             for (Map.Entry<String, List<Pair<Integer, Integer>>> entry : indexer.entrySet()) {
                 pw.print(entry.getKey() + ",");
                 List<Pair<Integer, Integer>> listFrequencies = entry.getValue();

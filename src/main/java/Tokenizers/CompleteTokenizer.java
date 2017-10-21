@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * IR, October 2017
  *
- * Assignment 1 
+ * Assignment 2 
  *
  * @author Tiago Faria, 73714, tiagohpf@ua.pt
  * @author David dos Santos Ferreira, 72219, davidsantosferreira@ua.pt
@@ -23,20 +23,25 @@ import java.util.List;
 public class CompleteTokenizer implements Tokenizer{
     private List<Pair<String, Integer>> terms;
     
-    // Constructor
+    /**
+     * Constructor
+     */
     public CompleteTokenizer() {
         terms = new ArrayList<>();
     }
     
     /**
-     * Get all terms of tokenizer.
+     * Get all terms of tokenizer
      * @return list of terms
      */
     public List<Pair<String, Integer>> getTerms() {
         return terms;
     }
     
-    // Tokenizing all documents.
+    /**
+     * Tokenizing all documents
+     * @param documents 
+     */
     @Override
     public void tokenize(List<Document> documents) {
         for (Document document : documents) {
@@ -97,7 +102,7 @@ public class CompleteTokenizer implements Tokenizer{
                 // If term starts with '=', remove it.
                 else if (term.length() == 1 && term.charAt(0) == '=') {
                     term = term.replaceAll("=", "");                }
-                // Just add tokens with content and without white spaces.
+                // Just add tokens with content and without whitespaces
                 if (term.trim().length() > 0)
                     terms.add(new Pair<>(term, id));
             }

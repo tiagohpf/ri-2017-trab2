@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * IR, October 2017
  *
- * Assignment 1 
+ * Assignment 2 
  *
  * @author Tiago Faria, 73714, tiagohpf@ua.pt
  * @author David dos Santos Ferreira, 72219, davidsantosferreira@ua.pt
@@ -23,7 +23,9 @@ import java.util.List;
 public class SimpleTokenizer implements Tokenizer{
     private List<Pair<String, Integer>> terms;
     
-    // Constructor
+    /**
+     * Constructor
+     */
     public SimpleTokenizer() {
         terms = new ArrayList<>();
     }
@@ -36,7 +38,10 @@ public class SimpleTokenizer implements Tokenizer{
         return terms;
     }
     
-    // Tokenizing all documents.
+    /**
+     * Tokenizing all documents
+     * @param documents 
+     */
     @Override
     public void tokenize(List<Document> documents) {
         for(int i = 0; i < documents.size(); i++){

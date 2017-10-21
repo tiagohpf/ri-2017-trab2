@@ -9,10 +9,28 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * IR, October 2017
+ *
+ * Assignment 2 
+ *
+ * @author Tiago Faria, 73714, tiagohpf@ua.pt
+ * @author David dos Santos Ferreira, 72219, davidsantosferreira@ua.pt
+ * 
+ */
+
+// Class that parses files into queries
 public class QueryParser implements Strategy<List<Document>>{
+    // Id of query
     private int queryId = 0;
     private static Scanner sc;
     
+    /**
+     * Parse a txt file and transform into queries
+     * Each phrase of file is a query
+     * @param file
+     * @return documents 
+     */
     @Override
     public List<Document> parseFile(File file) {
         List<Document> queries = new ArrayList<>();
@@ -20,6 +38,7 @@ public class QueryParser implements Strategy<List<Document>>{
             sc = new Scanner(file);
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
+                // Auto-increment in query's id
                 queries.add(new QueryDocument(++queryId, line));
             }
             return queries;
@@ -30,6 +49,11 @@ public class QueryParser implements Strategy<List<Document>>{
         return null;
     }
 
+    /**
+     * Parse a directory with several txt files and transform into queries
+     * @param file
+     * @return documents
+     */
     @Override
     public List<Document> parseDir(File file) {
         File []files = file.listFiles();
@@ -38,6 +62,5 @@ public class QueryParser implements Strategy<List<Document>>{
         for (File f : files)
              documents.addAll(parseFile(f));
         return documents;
-    }
-    
+    }  
 }

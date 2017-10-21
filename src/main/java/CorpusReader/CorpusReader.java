@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * IR, October 2017
  *
- * Assignment 1 
+ * Assignment 2 
  *
  * @author Tiago Faria, 73714, tiagohpf@ua.pt
  * @author David dos Santos Ferreira, 72219, davidsantosferreira@ua.pt
@@ -28,14 +28,14 @@ public class CorpusReader {
      * @param document
      */
     public void addDocument(Document document) {
-        // Auto-increment in DOCNO
+        // Auto-increment in document's id
         if (document.getId() != documents.size() + 1)
             document.setId(documents.size() + 1);
         this.documents.add(document);
     }
 
     /**
-     * Return list of documents.
+     * Get list of documents.
      * @return list of documents
      */
     public List<Document> getDocuments() {

@@ -1,6 +1,5 @@
 package Parsers;
 
-
 import Documents.Document;
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +16,7 @@ import org.xml.sax.SAXException;
 /**
  * IR, October 2017
  *
- * Assignment 1 
+ * Assignment 2 
  *
  * @author Tiago Faria, 73714, tiagohpf@ua.pt
  * @author David dos Santos Ferreira, 72219, davidsantosferreira@ua.pt
@@ -30,7 +29,7 @@ import org.xml.sax.SAXException;
 */
 public class XMLParser implements Strategy<Document> {
     /**
-     * Parse a certain file.
+     * Parse a certain file
      * @param file
      * @return Document
      */
@@ -49,9 +48,9 @@ public class XMLParser implements Strategy<Document> {
     }
     
     /**
-     * Parse a certain directory.
+     * Parse a certain directory
      * @param file
-     * @return List of Documents
+     * @return documents
      */
     @Override
     public List<Document> parseDir(File file) {

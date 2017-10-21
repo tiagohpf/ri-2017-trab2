@@ -7,6 +7,7 @@ import Indexers.IndexerReader;
 import Scoring.QueryScoring;
 import Tokenizers.CompleteTokenizer;
 import Utils.Filter;
+import Utils.Key;
 import Utils.Pair;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -53,40 +54,48 @@ public class Main {
             List<Pair<String, Integer>> terms;
             Map<String, List<Pair<Integer, Integer>>> indexer = indexReader.getIndexer();
             QueryScoring score;
+            System.out.println("***********************************************************************");
             if (tokenizerType.equals(SimpleTokenizer.class.getName())) {
                 SimpleTokenizer simpleTokenizer = new SimpleTokenizer();
-                System.out.println("**********************************************");
-                System.out.println("Queries with Simple Tokenizer");
-                System.out.println("**********************************************");
+                System.out.println("\t\tQueries with Simple Tokenizer");
                 simpleTokenizer.tokenize(documents);
                 terms = simpleTokenizer.getTerms();
-                score = new QueryScoring(indexer, terms, documents.size());
-                score.calculateScores();
-                score.writeNumberOfWords(new File(args[2]));
-                score.writeWordsFrequency(new File(args[3]));
+                showResults(indexer, terms, documents.size(), args[2], args[3]);
             } else if (tokenizerType.equals(CompleteTokenizer.class.getName())) {
                 CompleteTokenizer completeTokenizer = new CompleteTokenizer();
-                System.out.println("**********************************************");
-                System.out.println("Queries with Complete Tokenizer");
-                System.out.println("**********************************************");
+                System.out.println("\t\tQueries with Complete Tokenizer");
                 completeTokenizer.tokenize(documents);
                 terms = completeTokenizer.getTerms();
                 Filter filter = new Filter();
                 terms = filter.stopwordsFiltering(terms);
                 terms = filter.stemmingWords(terms);
-                score = new QueryScoring(indexer, terms, documents.size());
-                score.calculateScores();
-                score.writeNumberOfWords(new File(args[2]));
-                score.writeWordsFrequency(new File(args[3]));
+                showResults(indexer, terms, documents.size(), args[2], args[3]);           
             } else {
                 System.err.println("ERROR: Invalid type of Tokenizer!");
                 System.exit(1);
             }
-
         } else {
             System.err.println("ERROR: Invalid number of arguments!");
             System.out.println("USAGE: <indexer file> <queries file> <file result 1> <file result 2>");
             System.exit(1);
         }
     }
+    
+    private static void showResults(Map<String, List<Pair<Integer, Integer>>> indexer, List<Pair<String, Integer>> terms, 
+            int size, String firstFile, String secondFile) {
+        System.out.println("***********************************************************************");
+        QueryScoring score = new QueryScoring(indexer, terms, size);
+        score.calculateScores();
+        score.writeNumberOfWords(new File(firstFile));
+        Map<Key, Integer> numberOfTerms = score.getNumberOfTerms();
+        System.out.println("1. Number of query's words that appear in documents");
+        System.out.println("------------------------------------------------------------------------");
+        System.out.println(numberOfTerms);
+        score.writeWordsFrequency(new File(secondFile));
+        Map<Key, Integer> termsFrequency = score.getTermsFrequency();
+        System.out.println("------------------------------------------------------------------------");
+        System.out.println("2. Total frequency of query words in the documents");
+        System.out.println("------------------------------------------------------------------------");
+        System.out.println(termsFrequency);
+    } 
 }

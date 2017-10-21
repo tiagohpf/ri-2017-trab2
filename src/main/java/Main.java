@@ -10,6 +10,7 @@ import Utils.Pair;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * IR, October 2017
@@ -32,8 +33,7 @@ public class Main {
      * @param args
      * @throws FileNotFoundException
      */
-    public static void main(String[] args) throws FileNotFoundException {
-        // TODO: args <indexer file> <query file>  <file out nº1> <file out nº2>            
+    public static void main(String[] args) throws FileNotFoundException {         
         IndexerReader indexReader = new IndexerReader(args[0]);
         if (args.length == 4) {
             File file = new File(args[1]);
@@ -49,26 +49,36 @@ public class Main {
                 corpusReader.setDocuments((List<Document>)parser.parseFile(file));
             List<Document> documents = corpusReader.getDocuments();
             String tokenizerType = indexReader.getTokenizerType();
+            List<Pair<String, Integer>> terms;
+            Map<String, List<Pair<Integer, Integer>>> indexer = indexReader.getIndexer();
+            QueryScoring score;
             if (tokenizerType.equals(SimpleTokenizer.class.getName())) {
                 SimpleTokenizer simpleTokenizer = new SimpleTokenizer();
                 System.out.println("**********************************************");
                 System.out.println("Queries with Simple Tokenizer");
                 System.out.println("**********************************************");
                 simpleTokenizer.tokenize(documents);
-                List<Pair<String, Integer>> terms = simpleTokenizer.getTerms();
-                QueryScoring score = new QueryScoring(indexReader.getIndexer(), terms, documents.size());
-                // TODO: generate files
+                terms = simpleTokenizer.getTerms();
+                score = new QueryScoring(indexer, terms, documents.size());
+                score.calculateScores();
+                score.writeNumberOfWords(new File(args[2]));
+                score.writeWordsFrequency(new File(args[3]));
             } else if (tokenizerType.equals(CompleteTokenizer.class.getName())) {
                 CompleteTokenizer completeTokenizer = new CompleteTokenizer();
                 System.out.println("**********************************************");
                 System.out.println("Queries with Complete Tokenizer");
                 System.out.println("**********************************************");
                 completeTokenizer.tokenize(documents);
-                // TODO: generate files
+                terms = completeTokenizer.getTerms();
+                score = new QueryScoring(indexer, terms, documents.size());
+                score.calculateScores();
+                score.writeNumberOfWords(new File(args[2]));
+                score.writeWordsFrequency(new File(args[3]));
             } else {
                 System.err.println("ERROR: Invalid type of Tokenizer!");
                 System.exit(1);
             }
+
         } else {
             System.err.println("ERROR: Invalid number of arguments!");
             System.out.println("USAGE: <indexer file> <queries file> <file result 1> <file result 2>");

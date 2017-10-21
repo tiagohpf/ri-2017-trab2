@@ -1,13 +1,20 @@
 package Utils;
 
-public class Key {
+public class Key{
+    private final int firstValue;
+    private final int secondValue;
 
-    private final int x;
-    private final int y;
-
-    public Key(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Key(int firstValue, int secondValue) {
+        this.firstValue = firstValue;
+        this.secondValue = secondValue;
+    }
+    
+    public int getFirstValue() {
+        return firstValue;
+    }
+    
+    public int getSecondValue() {
+        return secondValue;
     }
 
     @Override
@@ -15,27 +22,18 @@ public class Key {
         if (this == o) return true;
         if (!(o instanceof Key)) return false;
         Key key = (Key) o;
-        return x == key.x && y == key.y;
+        return firstValue == key.firstValue && secondValue == key.secondValue;
     }
 
     @Override
     public int hashCode() {
-        int result = x;
-        result = 31 * result + y;
+        int result = firstValue;
+        result = 1400 * result + secondValue;
         return result;
     }
     
     @Override
     public String toString() {
-        return "(" + x + "," + y + ")";
+        return "(" + firstValue + "," + secondValue + ")";
     }
-    
-    public int getFirst() {
-        return x;
-    }
-    
-    public int getSecond() {
-        return y;
-    }
-
 }

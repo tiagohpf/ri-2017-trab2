@@ -6,6 +6,7 @@ import Parsers.QueryParser;
 import Indexers.IndexerReader;
 import Scoring.QueryScoring;
 import Tokenizers.CompleteTokenizer;
+import Utils.Filter;
 import Utils.Pair;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,8 +35,8 @@ public class Main {
      * @throws FileNotFoundException
      */
     public static void main(String[] args) throws FileNotFoundException {         
-        IndexerReader indexReader = new IndexerReader(args[0]);
         if (args.length == 4) {
+            IndexerReader indexReader = new IndexerReader(args[0]);
             File file = new File(args[1]);
             if (!file.exists()) {
                 System.err.println("ERROR: File not found");
@@ -70,6 +71,9 @@ public class Main {
                 System.out.println("**********************************************");
                 completeTokenizer.tokenize(documents);
                 terms = completeTokenizer.getTerms();
+                Filter filter = new Filter();
+                terms = filter.stopwordsFiltering(terms);
+                terms = filter.stemmingWords(terms);
                 score = new QueryScoring(indexer, terms, documents.size());
                 score.calculateScores();
                 score.writeNumberOfWords(new File(args[2]));

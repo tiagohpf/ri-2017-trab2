@@ -48,7 +48,7 @@ public class CompleteTokenizer implements Tokenizer{
             else
                 content = document.getText();
             // Remove some special characters
-            content = content.replaceAll("[*+/:;'()\"]", "");
+            content = content.replaceAll("[*+/:;'(),\"]", "");
             content = content.replaceAll("\n", " ");
             // Tokenize by white space
             String []text = content.split(" ");
@@ -58,7 +58,7 @@ public class CompleteTokenizer implements Tokenizer{
                 * Remove '-' in small terms. Otherwise, keep the term
                 */
                 if (term.contains("-")) {
-                    term = term.replaceAll("[.,]", "");
+                    term = term.replaceAll(".", "");
                     // If theres is a term like '--2', change to '-2'.
                     if (term.length() >= 2 && term.charAt(0) == '-' && term.charAt(1) == '-') {
                         if (term.length() > 2 && Character.isDigit(term.charAt(2)))
@@ -85,31 +85,15 @@ public class CompleteTokenizer implements Tokenizer{
                     if (term.length() > index + 1 && index > 0
                             && (Character.isDigit(term.charAt(index - 1))) 
                             && (Character.isDigit(term.charAt(index + 1)))) {
-                        term = term.replaceAll("[,-]", "");
+                        term = term.replaceAll("-", "");
                         // In case of term ends with '.', remove it.
                         if ((term.charAt(term.length() - 1) + "").contains(".")) {
                             term = term.substring(0, term.length() - 1);
                             }
                     }
                     else
-                        term = term.replaceAll("[.,-]", "");
-                } 
-                // In case of number like 92,3, keep the term
-                else if (term.contains(",")) {
-                    int index = term.indexOf(',');
-                    // Check if ',' is between at least two numbers
-                    if (term.length() > index + 1 && index > 0
-                            && (Character.isDigit(term.charAt(index - 1))) 
-                            && (Character.isDigit(term.charAt(index + 1)))) {
                         term = term.replaceAll("[.-]", "");
-                         // In case of term ends with ',', remove it.
-                        if ((term.charAt(term.length() - 1) + "").contains(",")) {
-                            term = term.substring(0, term.length() - 1);
-                            }
-                    }
-                    else
-                        term = term.replaceAll("[,.-]", "");
-                }
+                } 
                 // If term starts with '=', remove it.
                 else if (term.length() == 1 && term.charAt(0) == '=') {
                     term = term.replaceAll("=", "");                }

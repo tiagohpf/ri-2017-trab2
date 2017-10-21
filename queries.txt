@@ -1,0 +1,3 @@
+what similarity laws must be obeyed when constructing aeroelastic models of heated high speed aircraft .
+what are the structural and aeroelastic problems associated with flight of high speed aircraft .
+what problems of heat conduction in composite slabs have been solved so far .

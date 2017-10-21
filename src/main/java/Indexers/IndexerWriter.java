@@ -2,6 +2,7 @@ package Indexers;
 
 import Tokenizers.CompleteTokenizer;
 import Tokenizers.SimpleTokenizer;
+import Utils.Filter;
 import Utils.Pair;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,8 +32,6 @@ import org.tartarus.snowball.ext.englishStemmer;
 public class IndexerWriter {
     // List of terms (tokens)
     private List<Pair<String, Integer>> terms;
-    // List of stopwords to filter
-    private final List<String> stopWords;
     // Indexer. The Indexer has a list of terms like [term, docId: frequency] 
     private final Map<String, List<Pair<Integer, Integer>>> indexer;
     // Type of tokenizer
@@ -48,12 +47,12 @@ public class IndexerWriter {
     public IndexerWriter(List<Pair<String, Integer>> terms, File file, String tokenizerType) throws FileNotFoundException {
         this.terms = terms;
         this.tokenizeType = tokenizerType;
-        stopWords = new ArrayList<>();
         indexer = new TreeMap<>();
         if (tokenizerType.equals(CompleteTokenizer.class.getName())) {
-            loadStopwords();
-            stopwordsFiltering();
-            stemmingWords();
+            Filter filter = new Filter();
+            List<String> stopWords = filter.loadStopwords();
+            terms = filter.stopwordsFiltering(terms);
+            terms = filter.stemmingWords(terms);
         }
         indexWords();
         writeToFile(file);
@@ -131,45 +130,6 @@ public class IndexerWriter {
         return termsFreq;
     }
     
-    // Read the file of stopwords and load them to a list
-    private void loadStopwords() throws FileNotFoundException {
-        File file = new File ("stopwords.txt");
-        Scanner sc = new Scanner(file);
-        while (sc.hasNext()) {
-            String word = sc.nextLine();
-            // String.trim() to remove white spaces after text
-            if (word.trim().length() > 0)
-                stopWords.add(word.trim());
-        }
-    }
-    
-    /*
-    * Apply the stopwording filtering.
-    * If there's any term in the stopwording list, it'll be removed from terms list.
-    */
-    private void stopwordsFiltering() {
-        terms = terms.stream()                                         // convert list to stream
-                .filter(term -> !stopWords.contains(term.getKey()))   // filter words that stopwords's list hasn't
-                .collect(Collectors.toList());                       // convert streams to List
-    }
-     
-    // Stemmer for terms.
-    private void stemmingWords() {
-        englishStemmer stemmer = new englishStemmer();
-        for (int i = 0; i < terms.size(); i++) {
-            String term = terms.get(i).getKey();
-            int docId = terms.get(i).getValue();
-            stemmer.setCurrent(term);
-            // If the term was stemmed, the terms list is updated.
-            if (stemmer.stem())
-                terms.set(i, new Pair<>(stemmer.getCurrent(), docId));
-        }
-    } 
-    
-    /*
-    * From terms list, create a new structure that represents an indexer.
-    * The key must be the term and the value is a list of documents where the term appears, plus is frequency.
-    */
     private void indexWords() {
         for (Pair<String, Integer> term_doc : terms) {
             String term = term_doc.getKey();

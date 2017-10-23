@@ -37,6 +37,7 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException {         
         // The program needs all of 4 arguments
         if (args.length == 4) {
+            long startTime = System.currentTimeMillis();
             IndexerReader indexReader = new IndexerReader(args[0]);
             File file = new File(args[1]);
             if (!file.exists()) {
@@ -64,7 +65,7 @@ public class Main {
                 System.out.println("\t\tQueries with Simple Tokenizer");
                 simpleTokenizer.tokenize(documents);
                 terms = simpleTokenizer.getTerms();
-                showResults(indexer, terms, documents.size(), args[2], args[3]);
+                showResults(indexer, terms, documents.size(), args[2], args[3], startTime);
             } else if (tokenizerType.equals(CompleteTokenizer.class.getName())) {
                 CompleteTokenizer completeTokenizer = new CompleteTokenizer();
                 System.out.println("\t\tQueries with Complete Tokenizer");
@@ -74,7 +75,7 @@ public class Main {
                 Filter filter = new Filter();
                 terms = filter.stopwordsFiltering(terms);
                 terms = filter.stemmingWords(terms);
-                showResults(indexer, terms, documents.size(), args[2], args[3]);           
+                showResults(indexer, terms, documents.size(), args[2], args[3], startTime);           
             } else {
                 System.err.println("ERROR: Invalid type of Tokenizer!");
                 System.exit(1);
@@ -97,7 +98,7 @@ public class Main {
      * @param secondFile 
      */
     private static void showResults(Map<String, List<Pair<Integer, Integer>>> indexer, List<Pair<String, Integer>> terms, 
-            int size, String firstFile, String secondFile) {
+            int size, String firstFile, String secondFile, long startTime) {
         System.out.println("***********************************************************************");
         QueryScoring score = new QueryScoring(indexer, terms, size);
         score.calculateScores();
@@ -114,5 +115,9 @@ public class Main {
         System.out.println("2. Total frequency of query words in the documents");
         System.out.println("------------------------------------------------------------------------");
         System.out.println(termsFrequency);
+        System.out.println("------------------------------------------------------------------------");
+        long stopTime = System.currentTimeMillis();
+        long elapsedTime = stopTime - startTime;
+        System.out.println("Indexing Time: " + elapsedTime + " ms.");
     } 
 }

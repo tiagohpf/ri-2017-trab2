@@ -188,7 +188,7 @@ public class QueryScoring {
      */
     private Map<Key, Integer> orderTerms(Map<Key, Integer> terms) {
         List<Map.Entry<Key,Integer>> entries = new ArrayList<>(terms.entrySet());
-        // Comparator to sort
+        // Comparator to sort by query_id
         Collections.sort(entries, new Comparator<Map.Entry<Key,Integer>>() {
             @Override
             public int compare(Entry<Key, Integer> o1, Entry<Key, Integer> o2) {
@@ -202,6 +202,19 @@ public class QueryScoring {
                 return res;
             }
         });
+        // Comparator to sort by doc_score
+        Collections.sort(entries, new Comparator<Map.Entry<Key,Integer>>() {
+            @Override
+            public int compare(Entry<Key, Integer> o1, Entry<Key, Integer> o2) {
+                int res = 0;
+                if (o1.getKey().getFirstValue() == o2.getKey().getFirstValue() && o1.getValue() > o2.getValue())
+                    res = -1;
+                else if (o1.getKey().getFirstValue() == o2.getKey().getFirstValue() && o1.getValue() < o2.getValue())
+                    res = 1;
+                return res;
+            }
+        });
+        // Create new map with sorted results
         Map<Key, Integer> result = new LinkedHashMap<>();
         for (Map.Entry<Key, Integer> entry: entries)
             result.put(new Key(entry.getKey().getFirstValue(), entry.getKey().getSecondValue()), entry.getValue());

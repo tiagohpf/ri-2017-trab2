@@ -100,9 +100,9 @@ public class QueryScoring {
         PrintWriter pw;
         try {
             pw = new PrintWriter(file);
-            pw.write(String.format("%-20s %-20s %-20s\n", "query_id", "doc_id", "doc_score"));
+            pw.write(String.format("%-10s %-10s %-10s\n", "query_id", "doc_id", "doc_score"));
             for (Map.Entry<Key, Integer> term : numberOfTerms.entrySet())
-                pw.write(String.format("%-20d %-20d %-20d\n",
+                pw.write(String.format("%-10d %-10d %-10d\n",
                         term.getKey().getFirstValue(), term.getKey().getSecondValue(), term.getValue()));
             pw.close();
         } catch (FileNotFoundException ex) {
@@ -124,9 +124,9 @@ public class QueryScoring {
         PrintWriter pw;
         try {
             pw = new PrintWriter(file);
-            pw.write(String.format("%-20s %-20s %-20s\n", "query_id", "doc_id", "doc_score"));
+            pw.write(String.format("%-10s %-10s %-10s\n", "query_id", "doc_id", "doc_score"));
             for (Map.Entry<Key, Integer> term : termsFrequency.entrySet())
-                pw.write(String.format("%-20d %-20d %-20d\n",
+                pw.write(String.format("%-10d %-10d %-10d\n",
                         term.getKey().getFirstValue(), term.getKey().getSecondValue(), term.getValue()));
             pw.close();
         } catch (FileNotFoundException ex) {

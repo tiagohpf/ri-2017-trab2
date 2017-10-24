@@ -76,7 +76,7 @@ public class Main {
                 terms = filter.stopwordsFiltering(terms);
                 terms = filter.stemmingWords(terms);
                 showResults(indexer, terms, documents.size(), args[2], args[3], startTime);           
-            } else {
+            } else {    
                 System.err.println("ERROR: Invalid type of Tokenizer!");
                 System.exit(1);
             }
